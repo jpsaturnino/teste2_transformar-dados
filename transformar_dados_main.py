@@ -2,9 +2,12 @@
 Jose Paulo
 Teste2_Transformar_Dados
 """
+import threading
 from tabula import read_pdf
 import pandas as pd
-from os import mkdir
+from os import mkdir, path, walk
+from os.path import basename
+from zipfile import ZipFile
 
 # NOME_PDF = "../teste1_webscrapping/padrao-tiss_componente-organizacional_202111.pdf"
 NOME_PDF = "padrao-tiss_componente-organizacional_202111.pdf"
@@ -170,6 +173,24 @@ def criar_pasta_quadros() -> None:
         pass
 
 
+def criar_arquivo_zip() -> None:
+    """
+    Cria um arquivo zip com os quadros extraidos
+    :return: None
+    """
+
+    try:
+        with ZipFile("Teste_JosePaulo.zip", "w") as zipObj:
+            for folderName, subfolders, filenames in walk("./quadros_extraidos"):
+                for filename in filenames:
+                    # create complete filepath of file in directory
+                    filePath = path.join(folderName, filename)
+                    # Add file to zip
+                    zipObj.write(filePath, basename(filePath))
+    except FileExistsError:
+        pass
+
+
 def main() -> None:
     """
     Função principal
@@ -189,6 +210,8 @@ def main() -> None:
     # Quadro 32
     dados = ler_pdf(pagina="120", area=(442, 132, 442 + 69, 132 + 180))
     transformar_quadro_unico(dados, "Tabela de Tipo de Solicitação")
+
+    criar_arquivo_zip()
 
 
 __name__ == "__main__" and main()
