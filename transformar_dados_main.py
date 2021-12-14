@@ -123,6 +123,7 @@ def transformar_quadro_multiplo(dados: pd.DataFrame, nome_tabela: str) -> pd.Dat
             )
 
     # Converte o dataframe final para CSV
+    print("Arquivo csv do quadro foi gerado com sucesso!")
     df.to_csv(
         "./quadros_extraidos/" + nome_tabela.replace(" ", "_") + ".csv",
         index=False,
@@ -150,6 +151,7 @@ def transformar_quadro_unico(dados: pd.DataFrame, nome_tabela: str) -> None:
 
     df = criar_dataframe_tabela_unica(dados, nome_tabela)
 
+    print("Arquivo csv do quadro foi gerado com sucesso!")
     df.to_csv(
         "./quadros_extraidos/" + nome_tabela.replace(" ", "_") + ".csv",
         index=False,
